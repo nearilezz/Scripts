@@ -7,21 +7,28 @@
 
 import os
 
+def AutoDecName(srcFileName):
+    nameTuple = os.path.splitext(srcFileName)
+    baseName = nameTuple[0]
+    expandedName = nameTuple[1]
+    decFileName = baseName + '(Pick)' + expandedName
+    return decFileName
 
+newLines = '\r\n'
 DecKeyList = []
 ShieldKeyList = []
 
-SrcFileName = raw_input("Src file name:")
-DecFileName = raw_input("Dec file name:")
-if len(DecFileName) == 0 or len(SrcFileName) == 0:
-	print 'File name is empty.[fail]'
-	exit()
-	
+
+SrcFileName = raw_input('Src File name: ')
+DecFileName = raw_input('Dec File name: ')
+
+if len(DecFileName) == 0:
+    DecFileName = AutoDecName(SrcFileName)
 
 while True:
     temp = raw_input("Input Dec Key:")
     if len(temp) == 0:
-        break
+       break
     DecKeyList.append(temp)
 
 while True:
@@ -49,6 +56,9 @@ while True:
 			if flag == True:
 				DecFile.write(line)
 
+DecFile.write('Keywords:' + newLines)
+DecFile.write('\tin: ' + str(DecKeyList) + newLines)
+DecFile.write('\tnot in: ' + str(ShieldKeyList) + newLines)
 SrcFile.close()
 DecFile.close()
 
